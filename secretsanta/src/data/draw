@@ -1,0 +1,6 @@
+// Жеребьёвка зафиксирована заранее и больше не меняется.
+// Каждый дарит ровно одному и получает ровно от одного, сам себе никто не достаётся.
+// Хранится в закодированном виде, чтобы случайно не заспойлерить себе результат.
+const ENCODED = "eyJ6bGF0YSI6ImFyaW5hIiwiYXJpbmEiOiJ2ZXJhIiwidmVyYSI6InZhc2lsaW5hIiwidmFzaWxpbmEiOiJsaXphIiwibGl6YSI6ImFsaXNhIiwiYWxpc2EiOiJzb255YThnIiwic29ueWE4ZyI6InNvbnlhN2EiLCJzb255YTdhIjoiZWdvciIsImVnb3IiOiJzb2ZhIiwic29mYSI6InpsYXRhIn0=";
+
+export const DRAW: Record<string, string> = JSON.parse(atob(ENCODED));
