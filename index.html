@@ -4,7 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#061a44" />
+
     <title>Тайный Санта ❄ VIP Казашки</title>
+
+    <meta
+      name="description"
+      content="Тайный Санта VIP Казашки — новогодний обмен подарками для своих. Участники входят по имени, узнают, кому дарят, и смотрят вишлист. Открытие жеребьёвки 1 декабря."
+    />
+    <meta
+      name="keywords"
+      content="тайный санта, вип казашки, тайный санта вип казашки, новогодний обмен подарками, секретный санта, жеребьёвка, вишлист"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="VIP Казашки" />
+
+    <!-- Ссылка на канонический адрес: помогает не плодить дубли -->
+    <link rel="canonical" href="https://mambarelos-0.github.io/VipKazashkiSanta/" />
+
+    <!-- Превью при отправке ссылки в Telegram / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="VIP Казашки" />
+    <meta property="og:title" content="Тайный Санта ❄ VIP Казашки" />
+    <meta
+      property="og:description"
+      content="Новогодний обмен подарками для своих: вход по имени, жеребьёвка и вишлисты. Открытие 1 декабря."
+    />
+    <meta property="og:url" content="https://mambarelos-0.github.io/VipKazashkiSanta/" />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,6 +44,42 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!--
+      Текстовый фолбэк для поисковых роботов и для случая, когда JS отключён.
+      Яндекс плохо рендерит React-SPA, поэтому без этого блока страница выглядит пустой.
+      React при монтировании заменяет содержимое #root, так что это видит только робот.
+    -->
+    <div id="seo-fallback" style="max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem; font-family: system-ui, sans-serif; line-height: 1.6; color: #eaf6ff; background: #061a44">
+      <h1 style="font-size: 1.6rem; margin: 0 0 1rem">Тайный Санта ❄ VIP Казашки</h1>
+      <p>
+        Сайт для новогоднего обмена подарками «Тайный Санта» среди своих — для компании
+        VIP Казашки. Здесь участники проходят жеребьёвку: вводят своё имя и пароль,
+        узнают, кому дарят подарок, и смотрят список пожеланий этого человека.
+      </p>
+      <p>
+        Жеребьёвка открывается <strong>1 декабря в 13:10</strong>. До этого момента на сайте
+        висит обратный отсчёт, а результаты скрыты — так что подарок остаётся сюрпризом
+        до самого открытия.
+      </p>
+      <h2 style="font-size: 1.15rem; margin: 1.5rem 0 0.5rem">Как это работает</h2>
+      <ul style="margin: 0; padding-left: 1.25rem">
+        <li>Участник вводит своё имя и пароль — вход только для своих.</li>
+        <li>После входа открывается карточка того, кому нужно дарить подарок.</li>
+        <li>Рядом показывается вишлист — список того, что человеку будет приятно получить.</li>
+        <li>Каждый дарит ровно одному человеку, и никто не дарит сам себе.</li>
+      </ul>
+      <p style="margin-top: 1.5rem; opacity: 0.75; font-size: 0.9rem">
+        Новогодний обмен подарками · Тайный Санта · VIP Казашки
+      </p>
+      <noscript>
+        <p style="margin-top: 1rem">
+          Для работы сайта нужен включённый JavaScript — включите его в настройках браузера
+          и обновите страницу.
+        </p>
+      </noscript>
+    </div>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

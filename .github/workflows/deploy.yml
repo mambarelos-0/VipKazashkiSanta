@@ -54,3 +54,15 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # Сообщаем Яндексу, Bing и другим участникам IndexNow,
+      # что страница обновилась. Ускоряет переобход роботом.
+      - name: Ping IndexNow
+        run: |
+          URL="https://mambarelos-0.github.io/VipKazashkiSanta/"
+          KEY="vipkazashki2026santa"
+          KEYFILE="https://mambarelos-0.github.io/VipKazashkiSanta/${KEY}.txt"
+          echo "Отправляю $URL в IndexNow…"
+          curl -sS -o /dev/null -w "HTTP %{http_code}\n" \
+            "https://api.indexnow.org/indexnow?url=${URL}&key=${KEY}&keyLocation=${KEYFILE}" || true
+          echo "Готово (не критично, если не 200)"
