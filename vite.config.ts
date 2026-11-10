@@ -16,4 +16,11 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
+  // Сайт публикуется по адресу вида /VipKazashkiSanta/ (project pages),
+  // поэтому ассеты должны грузиться относительными путями.
+  base: "./",
+  preview: {
+    // разрешаем хост превью-песочницы (не влияет на сборку и на GitHub Pages)
+    allowedHosts: true,
+  },
 });
