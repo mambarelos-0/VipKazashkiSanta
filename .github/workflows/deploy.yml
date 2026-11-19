@@ -18,19 +18,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
-      - run: npm ci
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
 
-      - uses: actions/configure-pages@v5
+      - name: Type check
+        run: npx tsc --noEmit
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Build
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
@@ -41,5 +51,18 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
+
+      # Сообщаем Яндексу, Bing и другим участникам IndexNow,
+      # что страница обновилась. Ускоряет переобход роботом.
+      - name: Ping IndexNow
+        run: |
+          URL="https://mambarelos-0.github.io/VipKazashkiSanta/"
+          KEY="vipkazashki2026santa"
+          KEYFILE="https://mambarelos-0.github.io/VipKazashkiSanta/${KEY}.txt"
+          echo "Отправляю $URL в IndexNow…"
+          curl -sS -o /dev/null -w "HTTP %{http_code}\n" \
+            "https://api.indexnow.org/indexnow?url=${URL}&key=${KEY}&keyLocation=${KEYFILE}" || true
+          echo "Готово (не критично, если не 200)"

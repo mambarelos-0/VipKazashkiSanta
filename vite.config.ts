@@ -10,13 +10,17 @@ const __dirname = path.dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
-  // относительные пути — сайт работает и на username.github.io/VipKazashkiSanta/,
-  // и на корневом кастомном домене
-  base: "./",
   plugins: [react(), tailwindcss(), viteSingleFile()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
+  },
+  // Сайт публикуется по адресу вида /VipKazashkiSanta/ (project pages),
+  // поэтому ассеты должны грузиться относительными путями.
+  base: "./",
+  preview: {
+    // разрешаем хост превью-песочницы (не влияет на сборку и на GitHub Pages)
+    allowedHosts: true,
   },
 });
