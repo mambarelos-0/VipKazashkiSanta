@@ -1,9 +1,11 @@
 import { OPEN_AT, PEOPLE } from "./people";
 
-// Начальная жеребьёвка зафиксирована заранее (учтено исключение: Василина <-> Соня).
+// Начальная жеребьёвка зафиксирована заранее (учтено правило: Соня дарит и получает
+// подарок только у/от Златы, Софы или Веры).
 // Хранится в закодированном виде, чтобы случайно не заспойлерить результат.
 const ENCODED = "eyJ2ZXJhIjoic29ueWEiLCJzb255YSI6InNvZmEiLCJzb2ZhIjoiZWdvciIsImVnb3IiOiJ2YXNpbGluYSIsInZhc2lsaW5hIjoic29ueWE3YSIsInNvbnlhN2EiOiJhbGlzYSIsImFsaXNhIjoiemxhdGEiLCJ6bGF0YSI6ImFyaW5hIiwiYXJpbmEiOiJsaXphIiwibGl6YSI6InZlcmEifQ==";
-const STORAGE_KEY = "vip_kazashki_santa_draw_v3";
+const STORAGE_KEY = "vip_kazashki_santa_draw_v4";
+const SONYA_PARTNERS = new Set(["zlata", "sofa", "vera"]);
 
 function isValidDraw(map: Record<string, string>): boolean {
   const ids = PEOPLE.map((p) => p.id);
@@ -14,7 +16,10 @@ function isValidDraw(map: Record<string, string>): boolean {
     if (!target || !ids.includes(target) || target === id) return false;
     if (map[target] === id) return false;
   }
-  if (map["vasilina"] === "sonya" || map["sonya"] === "vasilina") return false;
+  // Соня: и дарит, и получает подарок только у/от Златы, Софы или Веры
+  if (!SONYA_PARTNERS.has(map["sonya"])) return false;
+  const giver = ids.find((id) => map[id] === "sonya");
+  if (!giver || !SONYA_PARTNERS.has(giver)) return false;
   return true;
 }
 
