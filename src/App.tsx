@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { OPEN_AT, getPerson, type Person } from "./data/people";
+import { OPEN_AT, PEOPLE, getPerson, type Person } from "./data/people";
 import { getDraw } from "./data/draw";
 import { Backdrop } from "./components/Backdrop";
 import { SnowCanvas } from "./components/SnowCanvas";
@@ -19,6 +19,56 @@ type View =
   | { name: "admin" }
   | { name: "adminReveal"; person: Person }
   | { name: "adminLogin" };
+
+// Ключ для возврата на тот же экран после внезапной перезагрузки (например, когда iPhone
+// выгружает тяжёлую страницу при сильном приближении)
+const VIEW_STORAGE_KEY = "vip_kazashki_santa_view_v1";
+const VIEW_TTL_MS = 24 * 3600 * 1000;
+
+function restoreView(): View {
+  const isOpen = Date.now() >= OPEN_AT;
+  const fallback: View = isOpen ? { name: "login" } : { name: "countdown" };
+  try {
+    const raw = localStorage.getItem(VIEW_STORAGE_KEY);
+    if (!raw) return fallback;
+    const s = JSON.parse(raw) as { name?: string; giverId?: string; personId?: string; t?: number };
+    if (!s || typeof s.t !== "number" || Date.now() - s.t > VIEW_TTL_MS) return fallback;
+    const byId = (id?: string) => PEOPLE.find((p) => p.id === id);
+    switch (s.name) {
+      case "countdown":
+        return isOpen ? { name: "login" } : { name: "countdown" };
+      case "login":
+        return isOpen ? { name: "login" } : { name: "countdown" };
+      case "reveal": {
+        const g = byId(s.giverId);
+        return isOpen && g ? { name: "reveal", giver: g } : fallback;
+      }
+      case "admin":
+        return { name: "admin" };
+      case "adminReveal": {
+        const p = byId(s.personId);
+        return p ? { name: "adminReveal", person: p } : { name: "admin" };
+      }
+      case "adminLogin":
+        return { name: "adminLogin" };
+      default:
+        return fallback;
+    }
+  } catch {
+    return fallback;
+  }
+}
+
+function persistView(view: View) {
+  try {
+    const payload: Record<string, unknown> = { name: view.name, t: Date.now() };
+    if (view.name === "reveal") payload.giverId = view.giver.id;
+    if (view.name === "adminReveal") payload.personId = view.person.id;
+    localStorage.setItem(VIEW_STORAGE_KEY, JSON.stringify(payload));
+  } catch {
+    // приватный режим — просто не сохраняем
+  }
+}
 
 /** Эффект «проплывающей» метели при смене страницы */
 function Swoosh() {
@@ -67,9 +117,12 @@ function Swoosh() {
 export default function App() {
   const [ready, setReady] = useState(false);
   const [muted, setMuted] = useState(() => sound.isMuted());
-  const [view, setView] = useState<View>(() =>
-    Date.now() >= OPEN_AT ? { name: "login" } : { name: "countdown" }
-  );
+  const [view, setView] = useState<View>(() => restoreView());
+
+  // запоминаем экран, чтобы после внезапной перезагрузки (напр. на телефоне при сильном зуме) вернуться на него
+  useEffect(() => {
+    persistView(view);
+  }, [view]);
 
   // если время наступило, принудительно закрываем тестовый режим и открываем вход
   useEffect(() => {
