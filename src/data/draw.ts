@@ -1,9 +1,9 @@
 import { OPEN_AT, PEOPLE } from "./people";
 
-// Начальная жеребьёвка зафиксирована заранее (учтено исключение: Василина <-> Соня 8Г).
+// Начальная жеребьёвка зафиксирована заранее (учтено исключение: Василина <-> Соня).
 // Хранится в закодированном виде, чтобы случайно не заспойлерить результат.
-const ENCODED = "eyJ2ZXJhIjoic29ueWE4ZyIsInNvbnlhOGciOiJzb2ZhIiwic29mYSI6ImVnb3IiLCJlZ29yIjoidmFzaWxpbmEiLCJ2YXNpbGluYSI6InNvbnlhN2EiLCJzb255YTdhIjoiYWxpc2EiLCJhbGlzYSI6InpsYXRhIiwiemxhdGEiOiJhcmluYSIsImFyaW5hIjoibGl6YSIsImxpemEiOiJ2ZXJhIn0=";
-const STORAGE_KEY = "vip_kazashki_santa_draw_v2";
+const ENCODED = "eyJ2ZXJhIjoic29ueWEiLCJzb255YSI6InNvZmEiLCJzb2ZhIjoiZWdvciIsImVnb3IiOiJ2YXNpbGluYSIsInZhc2lsaW5hIjoic29ueWE3YSIsInNvbnlhN2EiOiJhbGlzYSIsImFsaXNhIjoiemxhdGEiLCJ6bGF0YSI6ImFyaW5hIiwiYXJpbmEiOiJsaXphIiwibGl6YSI6InZlcmEifQ==";
+const STORAGE_KEY = "vip_kazashki_santa_draw_v3";
 
 function isValidDraw(map: Record<string, string>): boolean {
   const ids = PEOPLE.map((p) => p.id);
@@ -14,7 +14,7 @@ function isValidDraw(map: Record<string, string>): boolean {
     if (!target || !ids.includes(target) || target === id) return false;
     if (map[target] === id) return false;
   }
-  if (map["vasilina"] === "sonya8g" || map["sonya8g"] === "vasilina") return false;
+  if (map["vasilina"] === "sonya" || map["sonya"] === "vasilina") return false;
   return true;
 }
 

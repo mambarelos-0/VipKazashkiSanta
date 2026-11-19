@@ -33,7 +33,7 @@ export function AdminPage({ onPick, onLogin, onExit }: Props) {
     if (ok) {
       sound.playShuffle();
       setCustom(true);
-      setNotice("✨ Готово! Все перемешаны заново (Василина и Соня 8Г не попадут друг другу)");
+      setNotice("✨ Готово! Все перемешаны заново (Василина и Соня не попадут друг другу)");
     } else {
       sound.playError();
       setNotice("Не удалось перемешать, попробуй ещё раз");
@@ -149,7 +149,7 @@ export function AdminPage({ onPick, onLogin, onExit }: Props) {
                 Перемешать всех заново?
               </h3>
               <p className="mt-2 text-sm font-bold leading-relaxed text-sky-800/90">
-                Никто не узнает результат заранее, а Василина и Соня 8Г точно не попадутся друг другу.
+                Никто не узнает результат заранее, а Василина и Соня точно не попадутся друг другу.
               </p>
               <p className="mt-2 rounded-xl bg-sky-100/90 px-3 py-2 text-xs font-semibold text-sky-700">
                 Сохраняется на этом устройстве и останется даже после перезагрузки страницы (до 01.12.2026 13:10).
