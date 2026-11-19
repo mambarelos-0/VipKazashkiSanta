@@ -145,6 +145,9 @@ export function EnvelopeStage({ receiver, onOpened, onOpenWishlist }: Props) {
               Ты даришь подарок
             </p>
             <PhotoRing src={receiver.photo} name={receiver.name} size={88} />
+            <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.18em] text-sky-600/75">
+              нажми на фотку, чтобы приблизить
+            </p>
             <h2
               className="mt-3 font-script leading-none"
               style={{

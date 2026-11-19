@@ -79,25 +79,6 @@ export function PhotoRing({ src, name, size = 104, orbit = true }: Props) {
           }
         }}
       />
-      {/* значок-подсказка «можно увеличить» */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute z-[6] flex items-center justify-center rounded-full border border-white/70 text-white"
-        style={{
-          width: Math.max(24, Math.round(size * 0.28)),
-          height: Math.max(24, Math.round(size * 0.28)),
-          right: -3,
-          bottom: -3,
-          background: "rgba(8,30,74,.66)",
-          boxShadow: "0 2px 10px rgba(2,16,54,.55), inset 0 1px 0 rgba(255,255,255,.35)",
-        }}
-      >
-        <svg viewBox="0 0 24 24" width="56%" height="56%" fill="none" stroke="currentColor" strokeWidth={2.3} strokeLinecap="round">
-          <circle cx="10.5" cy="10.5" r="6.4" />
-          <line x1="15.2" y1="15.2" x2="20.6" y2="20.6" />
-        </svg>
-      </span>
-
       {/* снежинки по орбите */}
       {orbit && (
         <div
