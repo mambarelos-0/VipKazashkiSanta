@@ -98,29 +98,63 @@ export function LoginPage({ onSuccess, onBack }: Props) {
           </h1>
         </Float>
 
-        {/* Фото — «арка» с васи-лентой: без рамок, с рукописной подписью */}
-        <Float delay={0.2} className="mt-7">
-          <figure className="relative" style={{ transform: "rotate(-2.4deg)" }}>
-            {/* васи-лента поверх верха фото */}
-            <div
+        {/* Фото — сказочный домик со снежной крышей */}
+        <Float delay={0.2} className="mt-4">
+          <figure className="relative mx-auto" style={{ width: "min(64vw, 30svh, 252px)", minWidth: 190 }}>
+            {/* крыша со снегом и трубой */}
+            <svg
+              viewBox="-14 -8 328 142"
+              width="118%"
+              style={{ display: "block", marginLeft: "-9%", overflow: "visible" }}
               aria-hidden="true"
-              className="absolute left-1/2 top-[-13px] z-10 h-[24px] w-[104px] -translate-x-1/2"
-              style={{
-                transform: "translateX(-50%) rotate(-1.6deg)",
-                background:
-                  "linear-gradient(100deg, rgba(255,255,255,.55) 0%, rgba(197,231,255,.78) 18%, rgba(255,255,255,.6) 45%, rgba(160,215,255,.72) 78%, rgba(255,255,255,.55) 100%)",
-                boxShadow: "0 4px 10px rgba(2,14,44,.38), inset 0 1px 0 rgba(255,255,255,.7)",
-                clipPath: "polygon(1.5% 8%, 98.5% 0, 100% 88%, 0 100%)",
-              }}
-            />
+            >
+              <defs>
+                <linearGradient id="roofGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stopColor="#418ae3" />
+                  <stop offset="0.55" stopColor="#265cb3" />
+                  <stop offset="1" stopColor="#153c79" />
+                </linearGradient>
+              </defs>
+              {/* скат крыши — сказочный купол */}
+              <path
+                d="M-12,124 Q150,-10 312,124 Z"
+                fill="url(#roofGrad)"
+                stroke="rgba(255,255,255,.4)"
+                strokeWidth="2"
+                strokeLinejoin="round"
+              />
+              {/* труба с шапкой снега */}
+              <rect x="222" y="26" width="33" height="50" rx="6" fill="#1d4c96" stroke="rgba(255,255,255,.32)" strokeWidth="1.5" transform="rotate(5 238 50)" />
+              <rect x="216" y="17" width="45" height="13" rx="6.5" fill="#f5fcff" transform="rotate(5 238 23)" />
+              {/* пуфы дыма */}
+              <circle cx="240" cy="4" r="4.6" fill="rgba(245,252,255,.8)" />
+              <circle cx="250" cy="-4" r="3.1" fill="rgba(245,252,255,.55)" />
+              {/* толстый слой снега на коньке крыши */}
+              <path
+                d="M-16,121 Q150,-12 316,121"
+                fill="none"
+                stroke="#f5fcff"
+                strokeWidth="23"
+                strokeLinecap="round"
+              />
+              {/* фестончатый край снега (скатывается по дуге) */}
+              {Array.from({ length: 12 }, (_, i) => {
+                const t = 0.045 + (i / 11) * 0.91;
+                const P0 = [-16, 121], C = [150, -12], P2 = [316, 121];
+                const x = (1 - t) * (1 - t) * P0[0] + 2 * (1 - t) * t * C[0] + t * t * P2[0];
+                const y = (1 - t) * (1 - t) * P0[1] + 2 * (1 - t) * t * C[1] + t * t * P2[1];
+                return <circle key={i} cx={x} cy={y + 13} r={i % 2 ? 8.5 : 12} fill="#f5fcff" />;
+              })}
+            </svg>
+
+            {/* «стены» дома — само фото */}
             <div
               className="relative overflow-hidden"
               style={{
-                width: "min(70vw, 35svh, 285px)",
-                minWidth: 208,
-                aspectRatio: "4 / 5",
-                borderRadius: "50% 50% 18px 18px / 37% 37% 18px 18px",
-                boxShadow: "0 30px 64px rgba(2,10,42,.6), 0 5px 20px rgba(110,200,255,.22)",
+                marginTop: -12,
+                aspectRatio: "4 / 4.6",
+                borderRadius: "4px 4px 20px 20px",
+                boxShadow: "0 30px 60px rgba(2,10,42,.62), 0 4px 16px rgba(110,200,255,.18)",
               }}
             >
               <img
@@ -129,29 +163,27 @@ export function LoginPage({ onSuccess, onBack }: Props) {
                 referrerPolicy="no-referrer"
                 draggable={false}
                 className="h-full w-full object-cover"
-                style={{ objectPosition: "center 20%" }}
+                style={{ objectPosition: "center 18%" }}
               />
               {/* мягкая внутренняя тень — глубина вместо рамки */}
               <div
                 className="pointer-events-none absolute inset-0"
                 style={{
-                  borderRadius: "inherit",
                   boxShadow:
-                    "inset 0 -42px 52px rgba(3,12,42,.42), inset 0 20px 34px rgba(255,255,255,.13), inset 0 0 0 1px rgba(255,255,255,.16)",
+                    "inset 0 -46px 52px rgba(3,12,42,.45), inset 0 22px 30px rgba(255,255,255,.12), inset 0 0 0 1px rgba(255,255,255,.14)",
                 }}
               />
             </div>
-            {/* подпись от руки под фото */}
-            <figcaption
-              className="mt-3 text-center font-script text-[28px] leading-none"
-              style={{
-                color: "#e3f2ff",
-                textShadow: "0 2px 16px rgba(90,180,255,.55)",
-                transform: "rotate(1.2deg)",
-              }}
-            >
-              VIP Казашки ❄
-            </figcaption>
+
+            {/* тёплый свет под домом */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute left-1/2 top-full h-10 w-[120%] -translate-x-1/2 -translate-y-2"
+              style={{ background: "radial-gradient(ellipse at center, rgba(150,225,255,.32), transparent 68%)" }}
+            />
+            {/* искры вокруг крыши */}
+            <span aria-hidden="true" className="twinkle pointer-events-none absolute left-[-10px] top-[16%] text-lg text-white drop-shadow-[0_0_7px_#fff]">✦</span>
+            <span aria-hidden="true" className="twinkle pointer-events-none absolute right-[-8px] top-[38%] text-sm text-sky-100 drop-shadow-[0_0_6px_#fff]" style={{ animationDelay: "0.9s" }}>✦</span>
           </figure>
         </Float>
 
