@@ -98,46 +98,61 @@ export function LoginPage({ onSuccess, onBack }: Props) {
           </h1>
         </Float>
 
-        {/* Фото в ледяной раме */}
-        <Float delay={0.2} className="mt-6">
-          <div className="relative">
-            {/* мягкое северное свечение вокруг рамки */}
+        {/* Фото — «арка» с васи-лентой: без рамок, с рукописной подписью */}
+        <Float delay={0.2} className="mt-7">
+          <figure className="relative" style={{ transform: "rotate(-2.4deg)" }}>
+            {/* васи-лента поверх верха фото */}
             <div
-              className="pointer-events-none absolute -inset-4 rounded-[38px] blur-2xl"
-              style={{ background: "radial-gradient(circle, rgba(160,225,255,0.55), transparent 72%)" }}
+              aria-hidden="true"
+              className="absolute left-1/2 top-[-13px] z-10 h-[24px] w-[104px] -translate-x-1/2"
+              style={{
+                transform: "translateX(-50%) rotate(-1.6deg)",
+                background:
+                  "linear-gradient(100deg, rgba(255,255,255,.55) 0%, rgba(197,231,255,.78) 18%, rgba(255,255,255,.6) 45%, rgba(160,215,255,.72) 78%, rgba(255,255,255,.55) 100%)",
+                boxShadow: "0 4px 10px rgba(2,14,44,.38), inset 0 1px 0 rgba(255,255,255,.7)",
+                clipPath: "polygon(1.5% 8%, 98.5% 0, 100% 88%, 0 100%)",
+              }}
             />
             <div
-              className="login-photo glowpulse relative rounded-[28px] p-[5px]"
+              className="relative overflow-hidden"
               style={{
-                width: "min(76vw, 40svh, 340px)",
-                minWidth: 220,
-                aspectRatio: "1 / 1",
-                background:
-                  "linear-gradient(135deg,#ffffff,#8fd0ff 25%,#2f7fe0 50%,#bfe6ff 75%,#ffffff)",
+                width: "min(70vw, 35svh, 285px)",
+                minWidth: 208,
+                aspectRatio: "4 / 5",
+                borderRadius: "50% 50% 18px 18px / 37% 37% 18px 18px",
+                boxShadow: "0 30px 64px rgba(2,10,42,.6), 0 5px 20px rgba(110,200,255,.22)",
               }}
             >
-              <div className="relative h-full w-full overflow-hidden rounded-[24px]">
-                <img
-                  src={HERO_PHOTO}
-                  alt="VIP Казашки"
-                  referrerPolicy="no-referrer"
-                  draggable={false}
-                  className="h-full w-full object-cover"
-                />
-                {/* тонкая внутренняя ледяная кромка */}
-                <div className="pointer-events-none absolute inset-0 rounded-[24px] ring-1 ring-inset ring-white/45" />
-              </div>
-
-              <Snowflake size={34} className="twinkle absolute -left-4 -top-4 text-white drop-shadow-[0_0_8px_rgba(160,220,255,1)]" />
-              <Snowflake size={22} className="twinkle absolute -right-2.5 -top-2.5 text-sky-100 drop-shadow-[0_0_8px_rgba(160,220,255,1)]" style={{ animationDelay: "0.5s" }} />
-              <Snowflake size={20} className="twinkle absolute -bottom-2.5 -left-2.5 text-sky-100 drop-shadow-[0_0_8px_rgba(160,220,255,1)]" style={{ animationDelay: "1.4s" }} />
-              <Snowflake size={28} className="twinkle absolute -bottom-3 -right-3 text-white drop-shadow-[0_0_8px_rgba(160,220,255,1)]" style={{ animationDelay: "1s" }} />
-
-              {/* звёздочки-искорки по краям рамки */}
-              <span className="twinkle pointer-events-none absolute -right-5 top-1/3 text-sm text-white drop-shadow-[0_0_6px_#fff]" style={{ animationDelay: "0.8s" }}>✦</span>
-              <span className="twinkle pointer-events-none absolute -left-5 bottom-1/3 text-xs text-sky-100 drop-shadow-[0_0_6px_#fff]" style={{ animationDelay: "1.6s" }}>✦</span>
+              <img
+                src={HERO_PHOTO}
+                alt="VIP Казашки"
+                referrerPolicy="no-referrer"
+                draggable={false}
+                className="h-full w-full object-cover"
+                style={{ objectPosition: "center 20%" }}
+              />
+              {/* мягкая внутренняя тень — глубина вместо рамки */}
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  borderRadius: "inherit",
+                  boxShadow:
+                    "inset 0 -42px 52px rgba(3,12,42,.42), inset 0 20px 34px rgba(255,255,255,.13), inset 0 0 0 1px rgba(255,255,255,.16)",
+                }}
+              />
             </div>
-          </div>
+            {/* подпись от руки под фото */}
+            <figcaption
+              className="mt-3 text-center font-script text-[28px] leading-none"
+              style={{
+                color: "#e3f2ff",
+                textShadow: "0 2px 16px rgba(90,180,255,.55)",
+                transform: "rotate(1.2deg)",
+              }}
+            >
+              VIP Казашки ❄
+            </figcaption>
+          </figure>
         </Float>
 
         {/* Форма */}

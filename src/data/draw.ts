@@ -1,11 +1,11 @@
 import { OPEN_AT, PEOPLE } from "./people";
 
-// Начальная жеребьёвка зафиксирована заранее (учтено правило: Соня дарит и получает
-// подарок только у/от Златы, Софы или Веры).
+// Начальная жеребьёвка зафиксирована заранее (учтено правило: Соня Ш дарит и получает
+// подарок только у/от Златы, Софы, Веры или Сони 8Г; Соня 8Г и Вера друг другу не достаются).
 // Хранится в закодированном виде, чтобы случайно не заспойлерить результат.
-const ENCODED = "eyJ2ZXJhIjoic29ueWEiLCJzb255YSI6InNvZmEiLCJzb2ZhIjoiZWdvciIsImVnb3IiOiJ2YXNpbGluYSIsInZhc2lsaW5hIjoic29ueWE3YSIsInNvbnlhN2EiOiJhbGlzYSIsImFsaXNhIjoiemxhdGEiLCJ6bGF0YSI6ImFyaW5hIiwiYXJpbmEiOiJsaXphIiwibGl6YSI6InZlcmEifQ==";
-const STORAGE_KEY = "vip_kazashki_santa_draw_v4";
-const SONYA_PARTNERS = new Set(["zlata", "sofa", "vera"]);
+const ENCODED = "eyJ2ZXJhIjoic29ueWEiLCJzb255YSI6InNvZmEiLCJzb2ZhIjoiZWdvciIsImVnb3IiOiJ2YXNpbGluYSIsInZhc2lsaW5hIjoic29ueWE3YSIsInNvbnlhN2EiOiJhbGlzYSIsImFsaXNhIjoic29ueWE4ZyIsInNvbnlhOGciOiJ6bGF0YSIsInpsYXRhIjoiYXJpbmEiLCJhcmluYSI6ImxpemEiLCJsaXphIjoidmVyYSJ9";
+const STORAGE_KEY = "vip_kazashki_santa_draw_v5";
+const SONYA_PARTNERS = new Set(["zlata", "sofa", "vera", "sonya8g"]);
 
 function isValidDraw(map: Record<string, string>): boolean {
   const ids = PEOPLE.map((p) => p.id);
@@ -16,10 +16,12 @@ function isValidDraw(map: Record<string, string>): boolean {
     if (!target || !ids.includes(target) || target === id) return false;
     if (map[target] === id) return false;
   }
-  // Соня: и дарит, и получает подарок только у/от Златы, Софы или Веры
+  // Соня Ш: и дарит, и получает подарок только у/от Златы, Софы, Веры или Сони 8Г
   if (!SONYA_PARTNERS.has(map["sonya"])) return false;
   const giver = ids.find((id) => map[id] === "sonya");
   if (!giver || !SONYA_PARTNERS.has(giver)) return false;
+  // Соня 8Г и Вера друг другу не достаются
+  if (map["sonya8g"] === "vera" || map["vera"] === "sonya8g") return false;
   return true;
 }
 

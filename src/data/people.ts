@@ -2,16 +2,17 @@ import egor from "../assets/avatars/egor.jpg";
 import arina from "../assets/avatars/arina.jpg";
 import sonya7a from "../assets/avatars/sonya7a.jpg";
 import sonya from "../assets/avatars/sonya.jpg";
+import sonya8g from "../assets/avatars/sonya8g.jpg";
 import sofa from "../assets/avatars/sofa.jpg";
 import alisa from "../assets/avatars/alisa.jpg";
 import vera from "../assets/avatars/vera.jpg";
 import vasilina from "../assets/avatars/vasilina.jpg";
 import liza from "../assets/avatars/liza.jpg";
 import zlata from "../assets/avatars/zlata.jpg";
+import hero from "../assets/hero.jpg";
 
-// Главное фото (на Яндекс.Диске его не было, осталось прежнее внешнее)
-export const HERO_PHOTO =
-  "https://fs.oblakoteka.ru/d.fotovssylku.ru/2026/11/07/IMG_9053.md.jpeg";
+// Главное фото первой страницы (локальное, из папки src/assets)
+export const HERO_PHOTO = hero;
 
 export interface Person {
   id: string;
@@ -49,12 +50,20 @@ export const PEOPLE: Person[] = [
   },
   {
     id: "sonya",
-    name: "Соня",
-    aliases: ["соня", "соня8г", "соня8"],
+    name: "Соня Ш",
+    aliases: ["соня", "сояш", "сояшуянцева"],
     password: "опгшница",
     photo: sonya,
     wishlist:
       "https://www.wildberries.ru/catalog/317255274/detail.aspx?size=478300790, https://www.wildberries.ru/catalog/1631623796/detail.aspx?size=2583602779",
+  },
+  {
+    id: "sonya8g",
+    name: "Соня 8Г",
+    aliases: ["соня8г", "соня8"],
+    password: "коля",
+    photo: sonya8g,
+    wishlist: "пох, только без кружки",
   },
   {
     id: "sofa",
