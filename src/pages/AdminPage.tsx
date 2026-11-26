@@ -1,11 +1,7 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { OPEN_AT, PEOPLE, type Person } from "../data/people";
-import { hasCustomDraw, rerollDraw } from "../data/draw";
 import { Float } from "../components/Float";
 import { Drifts } from "../components/Decor";
 import { PhotoRing } from "../components/PhotoRing";
-import { Snowflake } from "../components/Snowflake";
 import { sound } from "../utils/sound";
 
 interface Props {
@@ -14,32 +10,16 @@ interface Props {
   onExit: () => void;
 }
 
+// OPEN_AT нужен только чтобы подсказать, когда откроется жеребьёвка
+const openLabel = new Intl.DateTimeFormat("ru-RU", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+}).format(new Date(OPEN_AT));
+
 export function AdminPage({ onPick, onLogin, onExit }: Props) {
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  const [notice, setNotice] = useState("");
-  const [custom, setCustom] = useState(() => hasCustomDraw());
-
-  const isLocked = Date.now() >= OPEN_AT;
-
-  const handleReroll = () => {
-    if (Date.now() >= OPEN_AT) {
-      setConfirmOpen(false);
-      setNotice("Время уже наступило — пережеребьёвка закрыта 🔒");
-      sound.playError();
-      return;
-    }
-    const ok = rerollDraw();
-    setConfirmOpen(false);
-    if (ok) {
-      sound.playShuffle();
-      setCustom(true);
-      setNotice("✨ Готово! Все перемешаны заново (Соня Ш будет дарить и получать подарки только у Златы, Софы, Веры или Сони 8Г)");
-    } else {
-      sound.playError();
-      setNotice("Не удалось перемешать, попробуй ещё раз");
-    }
-  };
-
   return (
     <div className="relative min-h-[100svh] overflow-hidden">
       <div className="relative z-10 mx-auto max-w-lg px-5 pb-44 pt-12 text-center">
@@ -52,6 +32,9 @@ export function AdminPage({ onPick, onLogin, onExit }: Props) {
           </h1>
           <p className="mx-auto mt-1 max-w-sm text-sm font-semibold text-sky-100/90">
             Нажми на имя — увидишь конверт и открытку с этим именем, фото и вишлистом. Кому кто выпал — тут не видно 😉
+          </p>
+          <p className="mx-auto mt-2 max-w-sm text-[11px] font-bold uppercase tracking-wider text-sky-200/75">
+            жеребьёвка одна на всех · открытие {openLabel}
           </p>
         </Float>
 
@@ -73,19 +56,6 @@ export function AdminPage({ onPick, onLogin, onExit }: Props) {
           ))}
         </Float>
 
-        <AnimatePresence>
-          {notice && (
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="mt-5 rounded-2xl bg-white/90 px-4 py-2.5 text-sm font-extrabold text-sky-900 shadow-lg"
-            >
-              {notice}
-            </motion.p>
-          )}
-        </AnimatePresence>
-
         <Float delay={0.35} className="mt-6 flex flex-col gap-3">
           <button
             className="btn-ice"
@@ -96,18 +66,6 @@ export function AdminPage({ onPick, onLogin, onExit }: Props) {
           >
             👀 Посмотреть страницу входа
           </button>
-
-          {!isLocked && (
-            <button
-              className="btn-ghost w-full py-3.5 text-[15px]"
-              onClick={() => {
-                sound.playClick();
-                setConfirmOpen(true);
-              }}
-            >
-              🎲 Пережеребьёвка {custom ? "✓ (обновлена)" : ""}
-            </button>
-          )}
 
           <button
             className="btn-ghost"
@@ -120,63 +78,6 @@ export function AdminPage({ onPick, onLogin, onExit }: Props) {
           </button>
         </Float>
       </div>
-
-      {/* Модальное окно подтверждения пережеребьёвки */}
-      <AnimatePresence>
-        {confirmOpen && (
-          <motion.div
-            className="fixed inset-0 z-[70] flex items-center justify-center px-5"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <div
-              className="absolute inset-0 bg-sky-950/70 backdrop-blur-md"
-              onClick={() => setConfirmOpen(false)}
-            />
-            <motion.div
-              className="relative z-10 w-full max-w-sm rounded-3xl p-6 text-center"
-              style={{
-                background: "linear-gradient(160deg,#ffffff 0%,#e5f4ff 60%,#c6e4fc 100%)",
-                boxShadow: "0 24px 70px rgba(3,20,80,.65), inset 0 0 0 2px #fff",
-              }}
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            >
-              <Snowflake size={32} className="mx-auto mb-2 text-sky-500" />
-              <h3 className="font-display text-xl font-black text-sky-950">
-                Перемешать всех заново?
-              </h3>
-              <p className="mt-2 text-sm font-bold leading-relaxed text-sky-800/90">
-                Никто не узнает результат заранее, а Соня Ш будет дарить и получать подарки только у Златы, Софы, Веры или Сони 8Г.
-              </p>
-              <p className="mt-2 rounded-xl bg-sky-100/90 px-3 py-2 text-xs font-semibold text-sky-700">
-                Важно: новая жеребьёвка сохранится только в этом браузере и пробудет до 01.12.2026 13:10. У друзей на их телефонах останется та, что заложена в код сайта. Чтобы сменить жеребьёвку у всех — это можно сделать только в коде и с новым обновлением сайта.
-              </p>
-              <div className="mt-5 flex gap-2.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    sound.playClick();
-                    setConfirmOpen(false);
-                  }}
-                  className="flex-1 rounded-2xl border border-sky-300 bg-white py-3 text-sm font-extrabold text-sky-800 transition hover:bg-sky-50"
-                >
-                  Отмена
-                </button>
-                <button
-                  type="button"
-                  onClick={handleReroll}
-                  className="btn-ice flex-1 !py-3 !text-sm"
-                >
-                  Да, перемешать 🎲
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <Drifts />
     </div>

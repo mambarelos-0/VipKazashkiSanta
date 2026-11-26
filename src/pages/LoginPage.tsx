@@ -175,11 +175,50 @@ export function LoginPage({ onSuccess, onBack }: Props) {
               />
             </div>
 
-            {/* тёплый свет под домом */}
+            {/* сугроб под домом — фото «стоит» в снегу */}
+            <svg
+              viewBox="0 0 340 62"
+              aria-hidden="true"
+              className="pointer-events-none absolute left-1/2 z-20"
+              style={{ width: "152%", bottom: -15, transform: "translateX(-50%)", overflow: "visible" }}
+            >
+              <defs>
+                <linearGradient id="snowDriftGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stopColor="#ffffff" />
+                  <stop offset="0.6" stopColor="#e8f4fd" />
+                  <stop offset="1" stopColor="#c9e2f6" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M0,62 L0,30 Q36,6 76,22 Q110,38 152,13 Q198,-8 242,22 Q288,46 340,27 L340,62 Z"
+                fill="url(#snowDriftGrad)"
+              />
+              {/* тонкая синяя линия по гребню — объём */}
+              <path
+                d="M0,30 Q36,6 76,22 Q110,38 152,13 Q198,-8 242,22 Q288,46 340,27"
+                fill="none"
+                stroke="rgba(120,175,228,.65)"
+                strokeWidth="1.6"
+              />
+            </svg>
+
+            {/* парящие снежинки вокруг сугроба — «воздух» под домом */}
+            <Snowflake size={15} className="floaty pointer-events-none absolute z-30 text-white/90 drop-shadow-[0_0_5px_rgba(190,230,255,.9)]" style={{ left: "-13%", bottom: "9%", animationDelay: "0.4s" }} />
+            <Snowflake size={11} className="floaty pointer-events-none absolute z-30 text-sky-100/85" style={{ left: "-3%", bottom: "-5%", animationDelay: "1.3s" }} />
+            <Snowflake size={17} className="floaty pointer-events-none absolute z-30 text-white/90 drop-shadow-[0_0_6px_rgba(190,230,255,.9)]" style={{ right: "-12%", bottom: "12%", animationDelay: "0.8s" }} />
+            <Snowflake size={12} className="floaty pointer-events-none absolute z-30 text-sky-100/85" style={{ right: "-2%", bottom: "-4%", animationDelay: "1.7s" }} />
+            <Snowflake size={9} className="floaty pointer-events-none absolute z-30 text-white/80" style={{ left: "24%", bottom: "-11%", animationDelay: "2.1s" }} />
+            <Snowflake size={10} className="floaty pointer-events-none absolute z-30 text-white/80" style={{ right: "25%", bottom: "-12%", animationDelay: "0.2s" }} />
+
+            {/* искры на сугробе */}
+            <span aria-hidden="true" className="twinkle pointer-events-none absolute z-30 text-[10px] text-white drop-shadow-[0_0_4px_#fff]" style={{ left: "18%", bottom: "2%" }}>✦</span>
+            <span aria-hidden="true" className="twinkle pointer-events-none absolute z-30 text-xs text-white drop-shadow-[0_0_5px_#fff]" style={{ right: "20%", bottom: "4%", animationDelay: "1.2s" }}>✦</span>
+
+            {/* тёплый свет, отражающийся от снега */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute left-1/2 top-full h-10 w-[120%] -translate-x-1/2 -translate-y-2"
-              style={{ background: "radial-gradient(ellipse at center, rgba(150,225,255,.32), transparent 68%)" }}
+              className="pointer-events-none absolute left-1/2 top-full z-30 h-12 w-[150%] -translate-x-1/2 -translate-y-3"
+              style={{ background: "radial-gradient(ellipse at center, rgba(170,232,255,.4), transparent 65%)" }}
             />
             {/* искры вокруг крыши */}
             <span aria-hidden="true" className="twinkle pointer-events-none absolute left-[-10px] top-[16%] text-lg text-white drop-shadow-[0_0_7px_#fff]">✦</span>
